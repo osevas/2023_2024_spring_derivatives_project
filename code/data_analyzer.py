@@ -1,7 +1,7 @@
 """
 Objective: to create an object for analyzing
 Author: Onur S. Aslan
-Date: 2023-04-02
+Date: 2024-05-02
 """
 import pandas as pd
 from statsmodels.tsa.seasonal import seasonal_decompose
@@ -39,6 +39,14 @@ class DataAnalyzer:
         """
         print('\nPrinting summary of stock data:\n')
         print(self.data.describe())
+        return None\
+    
+    def print_info(self):
+        """
+        printing info of dataframe
+        """
+        print('\nPrinting info of stock data:\n')
+        print(self.data.info())
         return None
 
     def print_summary(self):
@@ -50,6 +58,7 @@ class DataAnalyzer:
         """
         self.print_head_tail()
         self.print_describe()
+        self.print_info()
         return None
     
     def decomposition(self, feature='Open' , model='additive', period=5, extrapolate_trend='freq'):
