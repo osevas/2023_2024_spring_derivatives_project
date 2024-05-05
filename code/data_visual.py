@@ -8,6 +8,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 
 
+
 class DataVisual:
     """
     Objective: to create an object for visualization
@@ -20,7 +21,7 @@ class DataVisual:
         fig.add_trace(
             go.Scatter(x=df.index, y=df[feature])
         )
-        fig.update_layout(yaxis_title = stock_name, xaxis_title='Date')
+        fig.update_layout(yaxis_title = stock_name + ' ' + feature, xaxis_title='Date')
         fig.update_xaxes(rangeslider_visible=True)
         fig.show()
         return None

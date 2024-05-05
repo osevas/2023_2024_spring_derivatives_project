@@ -107,4 +107,12 @@ class DataAnalyzer:
         visualizer = DataVisual()
         visualizer.plt_acf_pacf(self.stock_symbol, acf_array, pacf_array, feature)
         return None
+    
+    def calculate_daily_return(self, feature='Open'):
+        """
+        Calculating daily return
+        """
+        print('\nCalculating daily return\n')
+        self.data['daily_return'] = self.data[feature].pct_change()
+        return None
 
