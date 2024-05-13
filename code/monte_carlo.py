@@ -86,7 +86,7 @@ class MonteCarlo:
         random_num = norm.ppf(np.random.rand(self.test_day_count + self.days_to_predict, self.num_simulations))
         daily_returns = np.exp(drift + std_dev * random_num)
         next_day_price = np.zeros_like(daily_returns)
-        for i in range(0, self.test_day_count):
+        for i in range(0, self.test_day_count + self.days_to_predict):
             next_day_price[i] = last_day_price * daily_returns[i]
             last_day_price = next_day_price[i]
         return next_day_price
@@ -101,12 +101,17 @@ class MonteCarlo:
         plt.figure(figsize=(40,6))
         plt.plot(train_index[-50:], train_np[-50:])
         plt.plot(test_index, next_day_price[:self.test_day_count])
+        plt.xlabel('Date')
+        plt.ylabel(self.feature + 'price' + 'of ' + self.ticker)
+        plt.legend(['Training Data', 'Monte Carlo Simulation'], loc='upper left')
+        plt.grid(visible=True, which='both', axis='both')
         plt.savefig('MC_all_simulations.png')
         return None
     
     def best_simulation(self, test_arr, sims_arr):
         """
         Function that returns the best simulation
+        Monte Carlo simulation shows many different possible outcomes. This function returns the best simulation.
 
         Args:
             test_arr (_type_): _description_
@@ -125,8 +130,8 @@ class MonteCarlo:
         """
         Function that plots the best simulation
         """
-        train_df, train_index, train_np, last_day_price = self.get_train_data()
-        test_df, test_index, test_np = self.get_test_data()
+        _, train_index, train_np, _ = self.get_train_data()
+        _, test_index, test_np = self.get_test_data()
 
         best_sim = self.best_simulation(test_np, next_day_price[:self.test_day_count])
 
@@ -134,10 +139,15 @@ class MonteCarlo:
         plt.plot(train_index[-50:], train_np[-50:])
         plt.plot(test_index, test_np, color='red')
 
-        new_index = test_index + timedelta(days=self.days_to_predict)
-        new_index = test_index.append(new_index)
-        plt.plot(new_index, next_day_price[:, best_sim])
-        
+        # adding new days to index
+        new_index = test_index.append(pd.date_range(test_index[-1] + timedelta(days=1), periods=self.days_to_predict, freq='D'))
+        # new_index = test_index.append(new_index)
+
+        plt.plot(new_index, next_day_price[:, best_sim], marker='o')
+        plt.xlabel('Date')
+        plt.ylabel(self.feature + 'price' + 'of ' + self.ticker)
+        plt.legend(['Training Data', 'Test Data', 'Best Monte Carlo Simulation'], loc='upper left')
+        plt.grid(visible=True, which='both', axis='both')
         plt.savefig('MC_best_simulation.png')
         return None
     

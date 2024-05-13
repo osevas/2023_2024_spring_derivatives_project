@@ -3,7 +3,10 @@ Objective: Project of FE604 Advanced Derivatives
 Author: https://github.com/osevas
 Date: 2024-05-01
 Reference: https://https://github.com/osevas/2023_2024_spring_derivatives_project
+Environment activation: 
+C:\\Users\\oseva\\Documents\\py_envs\\deriv_env\\Scripts\\activate
 """
+
 import os
 from dataset_opener import DatasetOpener
 # from data_cleaner import DataCleaner
