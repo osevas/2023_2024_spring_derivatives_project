@@ -78,11 +78,12 @@ def main():
     # visualize_dataset(data_main)
 
     # monte carlo simulation
-    monte_carlo_1 = MonteCarlo(data_main, 'GC=F', 1260, 5, 'Close', 100)
-    monte_carlo_1.simulate()
+    # monte_carlo_1 = MonteCarlo(data_main, 'GC=F', 1260, 5, 'Close', 100)
+    # monte_carlo_1.simulate()
 
     # modeling lstm with attention
-    lstm_attention_1 = LSTMAttention(data_main)
+    lstm_attention_1 = LSTMAttention(data_main, 'GC=F', 1260, 5, 'Close')
+    lstm_attention_1.simulate()
 
 
 if __name__ == "__main__":

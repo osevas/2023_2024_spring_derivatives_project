@@ -7,6 +7,7 @@ import pandas as pd
 from tensorflow.keras.layers import Dense, Flatten, LSTM
 from tensorflow.keras import Model
 from sklearn.preprocessing import MinMaxScaler
+from window_generator import WindowGenerator
 import tensorflow as tf
 print("TensorFlow version:", tf.__version__)
 
@@ -15,7 +16,7 @@ class LSTMAttention(Model):
     Class for LSTM with attention
     """
 
-    def __init__(self, df_main, ticker, train_day_count, test_day_count, feature, num_simulations, days_to_predict=5):
+    def __init__(self, df_main, ticker, train_day_count, test_day_count, feature, input_width=40, days_to_predict=5):
         """
         Constructor
 
@@ -30,10 +31,13 @@ class LSTMAttention(Model):
         self.train_day_count = train_day_count
         self.test_day_count = test_day_count
         self.feature = feature
-        self.num_simulations = num_simulations
+        self.input_width = input_width
         self.days_to_predict = days_to_predict
-        self.lstm = LSTM(self.units, return_sequences=True, return_state=True)
-        self.dense = Dense(num_classes)
+
+        print("LSTMAttention class initialized")
+        
+        # self.lstm = LSTM(self.units, return_sequences=True, return_state=True)
+        # self.dense = Dense(num_classes)
 
     def call(self, inputs):
         """
@@ -69,13 +73,13 @@ class LSTMAttention(Model):
         Returns:
             _type_: pandas dataframe
         """
-        train_df = self.data_main[self.feature].iloc[-(self.train_day_count + self.test_day_count) : -(self.test_day_count - 1)]
+        train_df = self.data_main.iloc[-(self.train_day_count + self.test_day_count) : -(self.test_day_count - 1), :]
         train_index = train_df.index
         train_np = train_df.to_numpy()
 
-        last_day_price = train_np[-1]
+        # last_day_price = train_np[-1]
 
-        return train_df, train_index, train_np, last_day_price
+        return train_df, train_index, train_np
     
     def get_test_data(self):
         """
@@ -84,11 +88,27 @@ class LSTMAttention(Model):
         Returns:
             _type_: pandas dataframe
         """
-        test_df = self.data_main[self.feature].iloc[-self.test_day_count:]
+        test_df = self.data_main.iloc[-self.test_day_count:, :]
         test_index = test_df.index
         test_np = test_df.to_numpy()
         return test_df, test_index, test_np
     
+    def get_tf_dataset(self):
+        """
+        Function that returns tensorflow dataset
+
+        Returns:
+            _type_: pandas dataframe
+        """
+        self.normalize_data() # normalize the feature column of the main data
+        train_df, train_index, _ = self.get_train_data()
+        test_df, test_index, _ = self.get_test_data()
+
+        # Create window generator
+        window_gen_1 = WindowGenerator(input_width=self.input_width, label_width=self.days_to_predict, shift=self.days_to_predict, train_df=train_df, val_df=test_df, test_df=test_df, label_columns=[self.feature])
+        print(window_gen_1)
+        return None
+
     def simulate(self):
         """
         Function that simulates
@@ -96,10 +116,6 @@ class LSTMAttention(Model):
         Returns:
             _type_: pandas dataframe
         """
-        self.normalize_data() # normalize the feature column of the main data
-        train_df, train_index, train_np, last_day_price = self.get_train_data()
-        test_df, test_index, test_np = self.get_test_data()
-        drift, std_dev, last_day_price = self.calculate_drift()
-        next_day_price = self.calculate_next_day_price(drift, std_dev, last_day_price)
+        self.get_tf_dataset()
         return None
 
