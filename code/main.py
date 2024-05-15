@@ -13,6 +13,7 @@ from dataset_opener import DatasetOpener
 from data_visual import DataVisual
 from data_analyzer import DataAnalyzer
 from monte_carlo import MonteCarlo
+from lstm_attention import LSTMAttention
 
 def delete_png_files():
     """
@@ -79,6 +80,9 @@ def main():
     # monte carlo simulation
     monte_carlo_1 = MonteCarlo(data_main, 'GC=F', 1260, 5, 'Close', 100)
     monte_carlo_1.simulate()
+
+    # modeling lstm with attention
+    lstm_attention_1 = LSTMAttention(data_main)
 
 
 if __name__ == "__main__":
