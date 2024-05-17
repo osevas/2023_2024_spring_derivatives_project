@@ -136,7 +136,7 @@ class LSTMAttention():
         model = Sequential()
 
         # LSTM layer
-        model.add(LSTM(units=50, return_sequences=True, input_shape=(self.input_width, self.days_to_predict)))
+        model.add(LSTM(units=50, return_sequences=True, input_shape=(self.input_width, 1)))
         model.add(LSTM(units=50, return_sequences=True))
         model.add(LSTM(units=50, return_sequences=False))  # Only the last time step
 
@@ -146,7 +146,7 @@ class LSTMAttention():
 
         return model
     
-    def compile_fit(self, model):
+    def compile_fit(self, model, folder_name):
         """
         Function that compiles and fits the model
 
@@ -164,16 +164,16 @@ class LSTMAttention():
         # CALLBACKS
         early_stopping = EarlyStopping(monitor='val_loss', patience=10)
         # Callback to save the model periodically
-        model_checkpoint = ModelCheckpoint('best_model.h5', save_best_only=True, monitor='val_loss')
+        model_checkpoint = ModelCheckpoint('./' + folder_name + '/best_model.keras', save_best_only=True, monitor='val_loss')
 
         # Callback to reduce learning rate when a metric has stopped improving
         reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=5)
 
         # Callback for TensorBoard
-        tensorboard = TensorBoard(log_dir='./logs')
+        tensorboard = TensorBoard(log_dir='./' + folder_name + '/logs')
 
         # Callback to log details to a CSV file
-        csv_logger = CSVLogger('training_log.csv')
+        csv_logger = CSVLogger('./' + folder_name + '/training_log.csv')
 
         # Combining all callbacks
         callbacks_list = [early_stopping, model_checkpoint, reduce_lr, tensorboard, csv_logger]
@@ -182,11 +182,11 @@ class LSTMAttention():
 
         return history, model
     
-    def simulate(self):
+    def simulate(self, folder_name):
         """
         Function that simulates the LSTM with attention
         """
         model = self.build1()
-        # history, model = self.compile_fit(model)
+        history, model = self.compile_fit(model, folder_name)
         return None
 

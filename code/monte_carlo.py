@@ -91,7 +91,7 @@ class MonteCarlo:
             last_day_price = next_day_price[i]
         return next_day_price
     
-    def plot_simulation(self, next_day_price):
+    def plot_simulation(self, next_day_price, folder_name):
         """
         Function that plots the simulation
         """
@@ -105,7 +105,7 @@ class MonteCarlo:
         plt.ylabel(self.feature + 'price' + 'of ' + self.ticker)
         plt.legend(['Training Data', 'Monte Carlo Simulation'], loc='upper left')
         plt.grid(visible=True, which='both', axis='both')
-        plt.savefig('MC_all_simulations.png')
+        plt.savefig('./' + folder_name + '/MC_all_simulations.png')
         return None
     
     def best_simulation(self, test_arr, sims_arr):
@@ -148,10 +148,10 @@ class MonteCarlo:
         plt.ylabel(self.feature + 'price' + 'of ' + self.ticker)
         plt.legend(['Training Data', 'Test Data', 'Best Monte Carlo Simulation'], loc='upper left')
         plt.grid(visible=True, which='both', axis='both')
-        plt.savefig('MC_best_simulation.png')
+        plt.savefig('./' + folder_name + '/MC_best_simulation.png')
         return None
     
-    def simulate(self):
+    def simulate(self, folder_name):
         """
         Function that simulates the data
 
@@ -164,6 +164,6 @@ class MonteCarlo:
         # print(train_np)
         next_day_price = self.calculate_next_day_price()
         # print(next_day_price)
-        self.plot_simulation(next_day_price)
-        self.plot_best_simulation(next_day_price)
+        self.plot_simulation(next_day_price, folder_name)
+        self.plot_best_simulation(next_day_price, folder_name)
         return next_day_price

@@ -14,6 +14,7 @@ from data_visual import DataVisual
 from data_analyzer import DataAnalyzer
 from monte_carlo import MonteCarlo
 from lstm_attention import LSTMAttention
+import datetime
 
 def delete_png_files():
     """
@@ -59,6 +60,23 @@ def visualize_dataset(data):
     data_visual_1.plt_time_series(data, 'GC=F', 'daily_return')
     return None
 
+def create_folder(analysis_type):
+    """
+    Function that creates folder for analysis
+
+    Args:
+        analysis_type (_type_): _description_
+    """
+    # create folder name with today's date and time
+    now = datetime.datetime.now()
+    folder_name = analysis_type + '_' + now.strftime("%Y-%m-%d_%H-%M-%S")
+
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
+    
+    return folder_name
+
+
 
 
 def main():
@@ -79,11 +97,13 @@ def main():
 
     # monte carlo simulation
     # monte_carlo_1 = MonteCarlo(data_main, 'GC=F', 1260, 5, 'Close', 100)
-    # monte_carlo_1.simulate()
+    # folder_name = create_folder('monte_carlo')
+    # monte_carlo_1.simulate(folder_name)
 
     # modeling lstm with attention
     lstm_attention_1 = LSTMAttention(data_main, 'GC=F', 1260, 360, 180, 'Close')
-    lstm_attention_1.simulate()
+    folder_name = create_folder('lstm')
+    lstm_attention_1.simulate(folder_name)
 
 
 if __name__ == "__main__":
