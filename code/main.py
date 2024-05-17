@@ -82,7 +82,7 @@ def main():
     # monte_carlo_1.simulate()
 
     # modeling lstm with attention
-    lstm_attention_1 = LSTMAttention(data_main, 'GC=F', 1260, 5, 'Close')
+    lstm_attention_1 = LSTMAttention(data_main, 'GC=F', 1260, 360, 180, 'Close')
     lstm_attention_1.simulate()
 
 

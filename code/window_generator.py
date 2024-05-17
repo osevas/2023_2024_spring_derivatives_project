@@ -65,7 +65,7 @@ class WindowGenerator():
 
         return inputs, labels
   
-    def plot(self, model=None, plot_col='T (degC)', max_subplots=3):
+    def plot(self, model=None, plot_col='Close', max_subplots=3):
         inputs, labels = self.example
         plt.figure(figsize=(12, 8))
         plot_col_index = self.column_indices[plot_col]
@@ -95,7 +95,8 @@ class WindowGenerator():
             if n == 0:
                 plt.legend()
 
-        plt.xlabel('Time [h]')
+        plt.xlabel('Date')
+        plt.show()
     
     def make_dataset(self, data):
         data = np.array(data, dtype=np.float32)
