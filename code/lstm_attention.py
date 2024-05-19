@@ -6,11 +6,16 @@ Date: 2024-05-05
 import tensorflow as tf
 import pandas as pd
 import keras
+import pickle
+import matplotlib.pyplot as plt
 from keras import layers, Sequential
 from keras.layers import LSTM, Dense
 from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, TensorBoard, CSVLogger
 from sklearn.preprocessing import MinMaxScaler
 from window_generator_serie import WindowGeneratorSerie
+from keras.models import load_model
+from datetime import timedelta
+
 
 print("TensorFlow version:", tf.__version__)
 
@@ -55,7 +60,7 @@ class LSTMAttention():
     #     output = self.dense(attention)
     #     return output
     
-    def normalize_data(self):
+    def normalize_data(self, folder_name):
         """
         Function that normalizes data
 
@@ -64,6 +69,9 @@ class LSTMAttention():
         """
         scaler = MinMaxScaler(feature_range=(0, 1))
         self.data_main[self.feature] = scaler.fit_transform(self.data_main[self.feature].values.reshape(-1, 1))
+        # Save the scaler object to a file
+        with open('./' + folder_name + '/scaler.pkl', 'wb') as file:
+            pickle.dump(scaler, file)
         return None
 
     def get_train_data(self):
@@ -105,14 +113,14 @@ class LSTMAttention():
         test_np = test_df.to_numpy()
         return test_df, test_index, test_np
     
-    def get_tf_dataset(self):
+    def get_tf_dataset(self, folder_name):
         """
         Function that returns tensorflow dataset
 
         Returns:
             _type_: pandas dataframe
         """
-        self.normalize_data() # normalize the feature column of the main data
+        self.normalize_data(folder_name) # normalize the feature column of the main data
         train_df, _, _ = self.get_train_data()
         val_df, _, _ = self.get_val_data()
         test_df, _, _ = self.get_test_data()
@@ -156,7 +164,7 @@ class LSTMAttention():
         Returns:
             _type_: _description_
         """
-        train_ds, val_ds, test_ds = self.get_tf_dataset() # get tensorflow dataset
+        train_ds, val_ds, test_ds = self.get_tf_dataset(folder_name) # get tensorflow dataset
         
         # Compile
         model.compile(optimizer='adam', loss='mean_squared_error')
@@ -188,5 +196,47 @@ class LSTMAttention():
         """
         model = self.build1()
         history, model = self.compile_fit(model, folder_name)
+        return None
+    
+    def predict(self, folder_name):
+        """
+        Function that predicts the LSTM with attention
+
+        1) Load the best model
+        2) Predict the test data
+        3) transform the data back to original scale
+        4) plot the data
+        """
+        # Load the best model
+        best_model = load_model('./' + folder_name + '/best_model.keras')
+
+        # Arrange data to use in prediction
+        test_days_predict = self.data_main[self.feature].iloc[(-self.input_width - self.days_to_predict):-self.days_to_predict].values.reshape(-1, 1)
+        days_predict = self.data_main[self.feature].iloc[-self.input_width:].values.reshape(-1, 1)
+
+        # Load the scaler object
+        with open('./' + folder_name + '/scaler.pkl', 'rb') as file:
+            scaler = pickle.load(file)
+            test_days_predict = scaler.transform(test_days_predict)
+            days_predict = scaler.transform(days_predict)
+            y_test_pred = best_model.predict(test_days_predict) # predicting last days_to_predict days of the test data
+            y_test_pred = scaler.inverse_transform(y_test_pred)
+            y_pred = best_model.predict(days_predict) # predicting the next days_to_predict days
+            y_pred = scaler.inverse_transform(y_pred)
+        
+        plt.figure(figsize=(40,6))
+        plt.plot(self.data_main.index[-self.input_width * 3:], self.data_main[self.feature].iloc[-self.input_width * 3:], color='blue')
+
+        # adding new days to index
+        new_index = self.data_main.index.append(pd.date_range(self.data_main.index[-1] + timedelta(days=1), periods=self.days_to_predict, freq='D'))
+        # new_index = test_index.append(new_index)
+
+        plt.plot(new_index[-self.days_to_predict:], y_pred, marker='o')
+        plt.xlabel('Date')
+        plt.ylabel(self.feature + 'price' + 'of ' + self.ticker)
+        plt.legend(['Training Data', 'LSTM pred'], loc='upper left')
+        plt.grid(visible=True, which='both', axis='both')
+        plt.savefig('./' + folder_name + '/LSTM_simulation.png')
+    
         return None
 
