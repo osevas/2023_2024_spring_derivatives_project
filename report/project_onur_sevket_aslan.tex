@@ -1,0 +1,63 @@
+\documentclass[12pt, a4paper]{article}
+
+
+%------------for bibliography------------------------------------------------------
+%use this exact command. The style and bibliographystyle has to be authoryear (Havard). The sorting is nyt: name, year, title so that the bibliography is sorted alphabetically. 
+%firstinits=true shortens the names: Albert Einstein -> A. Einstein
+\usepackage[sorting=none]{biblatex}
+
+%this attaches your bib-file, your bibliography (must be in the same folder)
+\addbibresource{references.bib} 
+%--------------------------------------------------------------------------
+
+
+% Title Page
+\title{Final Project of FE604 \\ Pricing of Derivative with Monte Carlo and LSTM}
+\author{Onur Şevket Aslan}
+
+\begin{document}
+\maketitle
+
+\newpage
+\tableofcontents
+
+\newpage
+\section{Introduction}
+Artificial neural networks have been widely used in various fields such as image and speech recognition, and natural language processing.  They have also been used in financial markets to predict stock and derivatives prices, to detect fraud, and to make trading decisions \cite{4}.  In this article, artificial neural networks and their use in derivative pricing will be explained.  Furthermore, an analysis that has been performed for gold futures will be shown.  Price of gold futures has been predicted by both Monte Carlo modeling and LSTM.  The results of these models will be compared and presented in this article.\\[\baselineskip]
+
+
+\section{Traditional Models and Artificial Neural Networks}
+Machine learning (ML) techniques offer great flexibility and prediction accuracy, but they also strongly depart from traditional Econometrics.  The biggest downside of ML methods is their lack of interpretability.  This is mainly because ML methods are designed for predictions and performance.  It is difficult to assign economic meaning to the results found by ML methods \cite{3}.  In traditional models such as linear regression, the modeler can see the coefficients of the variables and can interpret the results accordingly.  He/she can perform several hypothesis tests to see if the coefficients are statistically significant.  However, in ML methods, the modeler cannot see the coefficients of the variables.  He/she can only see the prediction results.  This is a big disadvantage of ML methods.  However, ML methods are more flexible and can be used in more complex problems.  They can also be used in problems where traditional models fail to give accurate results \cite{3}.\\[\baselineskip] 
+
+
+
+
+\section{Monte Carlo Method}
+Neo is defined as "the use of blockchain technology and digital identity to digitize assets, the use of smart contracts for digital assets to be self-managed, to achieve 'smart economy' with a distributed network." on its white paper \cite{2}.  This cryptocurrency allows developers to make decentralized applications with its dev tools.  Developers, then, are allowed to share their applications as smart contracts on the blockchain technology \cite{3}.\\[\baselineskip]
+NEO has two tokens, NEO and GAS.  There are 100 million NEO tokens on the network, and it is mainly used for voting and management rights.  The minimum unit of NEO is 1, and it cannot be subdivided.  GAS, on the other hand, will be used for resource allocation and network charges.  There will be 100 million GAS tokens on the network and there will be permission to subdivide GAS.  The minimum unit of GAS is 0.00000001.  In the original block 100 million NEOs were generated, but GAS was not generated.  It will be generated through a decay algorithm in about 22 years \cite{2}.\\[\baselineskip]
+The white paper states that 100 million Neo tokens have been divided into two parts.  50 million tokens were sold to early investors and 50 million tokens were managed by the Neo Council to support the development of the Neo ecosystem.  Neos in the second part were locked out for 1 year and were to be unlocked after October 16, 2017.  The second part will not be used in the exchange market.  It will be used to motivate Neo developers and to support the development of the Neo ecosystem \cite{2}.\\[\baselineskip]
+GAS, on the other hand, is generated with each new block.  The initial generation rate is 8 GAS per block.  The generation rate will be reduced by 1 GAS every year and will be reduced to 1 GAS per block after 22 years.  It will remain constant at 1 GAS per block.  The total amount of GAS generated will be 100 million.  It is stated in the white paper that 2 million blocks were to be generated in about one year.  16\% of the GAS would be created in the first year, 52\% of the GAS would be created in the first 4 years, and 80\% of GAS would be created in the first 12 years \cite{2}.\\[\baselineskip]
+Websites, icodrops.com and investing.com, have been used to verify the information in the white paper.  The white paper stated that 50\% of the NEO tokens were to be sold to early investors.  However, it is seen on icodrops.com that 40\% of tokens were available for sale, and its ICO (initial coin offering) token price was 0.2 USD per 1 Neo \cite{4}.  The white paper also stated that the second 50 million token portion would not enter the exchange market.  However, it is seen on investing.com that the circulating supply is 70.54 million \cite{5}.  Despite these differences, the current price of NEO is \$13.75 and its market cap is \$966 million \cite{5}.  The price of NEO has increased by 6,775\% since its ICO \cite{4}.  The white paper does not mention ICO of GAS, but GAS can be exchanged on investing.com, which seems peculiar \cite{6}.
+
+\section{Long Short-Term Memory (LSTM) Network}
+TRON is defined as "an ambitious project dedicated to the establishment of a truly decentralized Internet and its infrastructure." on its white paper.  TRON network is used for dApps like Neo's network.  It was founded in July 2017 in Singapore.  Acquisition of BitTorrent in July 2018 shows that a decentralized ecosystem is important for TRON \cite{7}.\\[\baselineskip]
+TRON utilizes Proof of Stake (PoS) consensus mechanism rather than Proof of Work (PoW).  In this system, token holders assign some tokens to become block validators.  This may be problematic because the more assigned tokens a validator has, the more influence he/she has on the network.  This may lead to centralization of the network.  However, TRON has a solution for this problem.  TRON uses Delegated Proof of Stake (DPoS) consensus mechanism.  In this system, token holders can vote for block validators.  27 Super Representatives are selected by the votes of token holders.  These Super Representatives are responsible for block validation and are changed every 6 hours.  This system prevents centralization of the network \cite{7}.\\[\baselineskip]
+Apart from other cryptocurrencies, TRON attracts attention with its free transactions.  There are no transaction fees on the TRON network.  This is attractive for artists and content creators as they can transfer their digital work with no transaction fee after creation.  Also, TRON network is fast in terms of transactions as it can support about 2000 transactions per second, which is much quicker than networks that use PoW consensus mechanism \cite{8}.\\[\baselineskip]
+TRX, token that is used on the TRON network, was initiated on September 1, 2017.  \$70 million were generated at its ICO \cite{9}.  It is currently traded at \$0.106 on investing.com, which is about 57 times of its ICO price, and its market cap is \$9.38 billion.  The circulating supply is 88.59 billion \cite{10}.  What is peculiar about TRON is that it does not have a maximum supply limit.  This may lead to inflation in the future.  The white paper states that there would be no inflation before January 1, 2021.  However, it is not clear what will happen after that date \cite{7}.\\
+
+\section{Analysis Details}
+There are similarities between NEO and TRON.  Both focus on dApps and smart contracts, and have their own tokens.  Their tokens can be used for transactions, but the emphasis on their white papers is on dApps and smart contracts.  NEO created its own system, but TRON uses already-tested features.  This has allowed TRON to give emphasis on user experience and design.  Comparing their ICO prices to current prices, both of them have been successful in attracting investors. \cite{3, 8}
+
+\section{Results}
+
+\section{Discussion}
+
+\section{Conclusion}
+Cryptocurrencies, NEO and TRON, have been evaluated in this project.  Both of them focus on dApps and smart contracts.  NEO has its own system, but TRON uses already-tested features.  Both of them have been successful in attracting investors.  Even though they have gained the trust of investors, there are still some questions.  NEO's white paper should be revised and tell more about ICO of GAS.  TRON's white paper should be revised and tell more about inflation after January 1, 2021.  Considering the future of smart contracts, it can be said that both of these cryptocurrencies have a bright future.
+
+
+\newpage
+%\nocite{*}
+\printbibliography[heading=bibintoc]
+
+\end{document}          

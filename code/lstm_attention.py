@@ -24,7 +24,7 @@ class LSTMAttention():
     Class for LSTM with attention
     """
 
-    def __init__(self, df_main, ticker, train_day_count, val_day_count, test_day_count, feature, input_width=40, days_to_predict=5):
+    def __init__(self, df_main, ticker, train_day_count, val_day_count, test_day_count, feature, input_width=15, days_to_predict=5):
         """
         Constructor
 
@@ -67,11 +67,18 @@ class LSTMAttention():
         Returns:
             _type_: pandas dataframe
         """
+        # print(f'Actual values: {self.data_main[self.feature].values[-5:]}')
         scaler = MinMaxScaler(feature_range=(0, 1))
         self.data_main[self.feature] = scaler.fit_transform(self.data_main[self.feature].values.reshape(-1, 1))
+        # print(f'Transformed values: {self.data_main[self.feature].values[-5:]}')
         # Save the scaler object to a file
         with open('./' + folder_name + '/scaler.pkl', 'wb') as file:
             pickle.dump(scaler, file)
+        
+        # with open('./' + folder_name + '/scaler.pkl', 'rb') as file:
+        #     scaler = pickle.load(file)
+        #     print(f'Inverse transformed values: {scaler.inverse_transform(self.data_main[self.feature].values[-5:].reshape(-1, 1))}')
+
         return None
 
     def get_train_data(self):
@@ -154,6 +161,27 @@ class LSTMAttention():
 
         return model
     
+    def build2(self):
+        """
+        Function that simulates with 3 LSTM layers and 1 Dense layer
+
+        Returns:
+            _type_: 
+        """
+        
+        # Model architecture
+        model = Sequential()
+
+        # Dense layers
+        model.add(Dense(512, activation='relu', input_shape=(None, self.input_width)))
+        model.add(Dense(512, activation='relu'))
+        
+        # Adding a Dense layer to match the output shape with y_train
+        model.add(Dense(self.days_to_predict))
+        print(model.summary())
+
+        return model
+    
     def compile_fit(self, model, folder_name):
         """
         Function that compiles and fits the model
@@ -167,7 +195,7 @@ class LSTMAttention():
         train_ds, val_ds, test_ds = self.get_tf_dataset(folder_name) # get tensorflow dataset
         
         # Compile
-        model.compile(optimizer='adam', loss='mean_squared_error')
+        model.compile(optimizer='adam', loss='mean_absolute_error')
 
         # CALLBACKS
         early_stopping = EarlyStopping(monitor='val_loss', patience=10)
@@ -186,7 +214,8 @@ class LSTMAttention():
         # Combining all callbacks
         callbacks_list = [early_stopping, model_checkpoint, reduce_lr, tensorboard, csv_logger]
 
-        history = model.fit(train_ds, epochs=100, validation_data=val_ds, callbacks=callbacks_list)
+        history = model.fit(train_ds, epochs=40, validation_data=val_ds, callbacks=callbacks_list)
+        
 
         return history, model
     
@@ -219,19 +248,21 @@ class LSTMAttention():
             scaler = pickle.load(file)
             test_days_predict = scaler.transform(test_days_predict)
             days_predict = scaler.transform(days_predict)
-            y_test_pred = best_model.predict(test_days_predict) # predicting last days_to_predict days of the test data
+            y_test_pred = best_model.predict(test_days_predict.T) # predicting last days_to_predict days of the test data
+            # y_test_pred = best_model(test_days_predict) # predicting last days_to_predict days of the test data
             y_test_pred = scaler.inverse_transform(y_test_pred)
-            y_pred = best_model.predict(days_predict) # predicting the next days_to_predict days
+            y_pred = best_model.predict(days_predict.T) # predicting the next days_to_predict days
             y_pred = scaler.inverse_transform(y_pred)
         
         plt.figure(figsize=(40,6))
         plt.plot(self.data_main.index[-self.input_width * 3:], self.data_main[self.feature].iloc[-self.input_width * 3:], color='blue')
+        plt.plot(self.data_main.index[-self.days_to_predict:], y_test_pred.T, color='red', marker='o')
 
         # adding new days to index
         new_index = self.data_main.index.append(pd.date_range(self.data_main.index[-1] + timedelta(days=1), periods=self.days_to_predict, freq='D'))
         # new_index = test_index.append(new_index)
 
-        plt.plot(new_index[-self.days_to_predict:], y_pred, marker='o')
+        plt.plot(new_index[-self.days_to_predict:], y_pred.T, marker='o')
         plt.xlabel('Date')
         plt.ylabel(self.feature + 'price' + 'of ' + self.ticker)
         plt.legend(['Training Data', 'LSTM pred'], loc='upper left')

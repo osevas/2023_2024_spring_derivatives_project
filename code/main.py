@@ -84,7 +84,7 @@ def main():
     main function
     """
     # delete png files
-    delete_png_files()
+    # delete_png_files()
 
     # open dataset
     data_main = open_dataset()
@@ -101,9 +101,19 @@ def main():
     # monte_carlo_1.simulate(folder_name)
 
     # modeling lstm with attention
-    lstm_attention_1 = LSTMAttention(data_main, 'GC=F', 1260, 360, 180, 'Close')
+    # -------------------------------------- TRAINING ------------------------------------------------
+    training_len = 2520
+    val_len = (training_len // 7) * 2
+    test_len = val_len // 2
+
+
+    lstm_attention_1 = LSTMAttention(data_main, 'GC=F', training_len, val_len, test_len, 'Close')
     folder_name = create_folder('lstm')
     lstm_attention_1.simulate(folder_name)
+
+    # -------------------------------------- PREDICTION ------------------------------------------------
+    # lstm_attention_1 = LSTMAttention(data_main, 'GC=F', training_len, val_len, test_len, 'Close')
+    # lstm_attention_1.predict('lstm_2024-05-22_02-08-29')
 
 
 if __name__ == "__main__":

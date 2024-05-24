@@ -126,7 +126,7 @@ class MonteCarlo:
         best_sim = np.argmin(np.sum(np.abs(np.subtract(np.repeat(test_arr.reshape((-1, 1)), sims_arr.shape[1], axis=1), sims_arr)), axis=0))
         return best_sim
     
-    def plot_best_simulation(self, next_day_price):
+    def plot_best_simulation(self, next_day_price, folder_name):
         """
         Function that plots the best simulation
         """
