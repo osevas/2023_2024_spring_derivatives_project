@@ -1,4 +1,6 @@
 \documentclass[12pt, a4paper]{article}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
 
 
 %------------for bibliography------------------------------------------------------
@@ -27,10 +29,18 @@ Artificial neural networks have been widely used in various fields such as image
 
 
 \section{Traditional Models and Artificial Neural Networks}
-Machine learning (ML) techniques offer great flexibility and prediction accuracy, but they also strongly depart from traditional Econometrics.  The biggest downside of ML methods is their lack of interpretability.  This is mainly because ML methods are designed for predictions and performance.  It is difficult to assign economic meaning to the results found by ML methods \cite{3}.  In traditional models such as linear regression, the modeler can see the coefficients of the variables and can interpret the results accordingly.  He/she can perform several hypothesis tests to see if the coefficients are statistically significant.  However, in ML methods, the modeler cannot see the coefficients of the variables.  He/she can only see the prediction results.  This is a big disadvantage of ML methods.  However, ML methods are more flexible and can be used in more complex problems.  They can also be used in problems where traditional models fail to give accurate results \cite{3}.\\[\baselineskip] 
+Machine learning (ML) techniques offer great flexibility and prediction accuracy, but they also strongly depart from traditional Econometrics.  The biggest downside of ML methods is their lack of interpretability.  This is mainly because ML methods are designed for predictions and performance.  It is difficult to assign economic meaning to the results found by ML methods \cite{3}.  In traditional models such as linear regression, the modeler can see the coefficients of the variables and can interpret the results accordingly.  He/she can perform several hypothesis tests to see if the coefficients are statistically significant.  However, in ML methods, the modeler cannot see the coefficients of the variables.  He/she can only see the prediction results.  This is a big disadvantage of ML methods.  However, ML methods are more flexible and can be used in more complex problems.  They can also be used in problems where traditional models fail to give accurate results \cite{3}.\\
+
+An Artificial Neural Network (ANN), also known as a Neural Network (NN), is an algorithm designed to mimic the human brain's processes. Comprising interconnected artificial neurons, ANNs function as adaptive systems capable of learning from experience. These systems acquire, store, and utilize knowledge similarly to the human brain, where learning involves modifying synaptic connections between neurons. In ANNs, learning involves adjusting the weights of connections between nodes in response to input and output data during training. This training uses a dataset with known input and output values to iteratively adjust the network's weights, minimizing the error between actual and expected outputs. ANNs consist of nodes (processing elements) and connections, where each node processes input to produce output, and each connection is defined by its strength in exciting or inhibiting node pairs. After the learning phase, the network's performance is validated against a separate dataset to ensure its accuracy \cite{4}.\\
+
+\begin{figure}[h]
+\centering
+\includegraphics{ann.png}
+\caption{Artificial Neural Networks (ANNs)}
+\end{figure}
 
 
-
+Neural networks are a widely used architecture in financial research.  It is seen that the use of neural networks has been categorized into four groups: investment prediction, credit evaluation, financial distress, and other financial applications \cite{5}.  Derivative pricing is a topic that can be categorized under investment prediction.  Derivative pricing is a complex problem that requires a lot of data and a lot of computational power.  Traditional models such as Black-Scholes model can be used to price derivatives, but they have some limitations.  They assume that the underlying asset follows a log-normal distribution, and they assume that the volatility of the underlying asset is constant.  However, these assumptions are not always true.  The underlying asset may not follow a log-normal distribution, and the volatility of the underlying asset may not be constant.  In these cases, traditional models may fail to give accurate results.  This is where neural networks come into play.  Neural networks can be used to price derivatives without making any assumptions about the underlying asset.  They can be used to price derivatives with more complex payoffs.  They can also be used to price derivatives with more complex underlying assets \cite{4}.\\
 
 \section{Monte Carlo Method}
 Neo is defined as "the use of blockchain technology and digital identity to digitize assets, the use of smart contracts for digital assets to be self-managed, to achieve 'smart economy' with a distributed network." on its white paper \cite{2}.  This cryptocurrency allows developers to make decentralized applications with its dev tools.  Developers, then, are allowed to share their applications as smart contracts on the blockchain technology \cite{3}.\\[\baselineskip]
