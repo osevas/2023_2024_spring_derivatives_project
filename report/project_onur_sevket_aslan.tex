@@ -1,12 +1,15 @@
 \documentclass[12pt, a4paper]{article}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage[font=small,labelfont=bf]{caption}
 
 
 %------------for bibliography------------------------------------------------------
 %use this exact command. The style and bibliographystyle has to be authoryear (Havard). The sorting is nyt: name, year, title so that the bibliography is sorted alphabetically. 
 %firstinits=true shortens the names: Albert Einstein -> A. Einstein
-\usepackage[sorting=none]{biblatex}
+\usepackage[sorting=nyt]{biblatex}
 
 %this attaches your bib-file, your bibliography (must be in the same folder)
 \addbibresource{references.bib} 
@@ -14,7 +17,7 @@
 
 
 % Title Page
-\title{Final Project of FE604 \\ Pricing of Derivative with Monte Carlo and LSTM}
+\title{Final Project of FE604 \\ Pricing of Gold Futures with Monte Carlo and LSTM}
 \author{Onur Şevket Aslan}
 
 \begin{document}
@@ -43,27 +46,107 @@ An Artificial Neural Network (ANN), also known as a Neural Network (NN), is an a
 Neural networks are a widely used architecture in financial research.  It is seen that the use of neural networks has been categorized into four groups: investment prediction, credit evaluation, financial distress, and other financial applications \cite{5}.  Derivative pricing is a topic that can be categorized under investment prediction.  Derivative pricing is a complex problem that requires a lot of data and a lot of computational power.  Traditional models such as Black-Scholes model can be used to price derivatives, but they have some limitations.  They assume that the underlying asset follows a log-normal distribution, and they assume that the volatility of the underlying asset is constant.  However, these assumptions are not always true.  The underlying asset may not follow a log-normal distribution, and the volatility of the underlying asset may not be constant.  In these cases, traditional models may fail to give accurate results.  This is where neural networks come into play.  Neural networks can be used to price derivatives without making any assumptions about the underlying asset.  They can be used to price derivatives with more complex payoffs.  They can also be used to price derivatives with more complex underlying assets \cite{4}.\\
 
 \section{Monte Carlo Method}
-Neo is defined as "the use of blockchain technology and digital identity to digitize assets, the use of smart contracts for digital assets to be self-managed, to achieve 'smart economy' with a distributed network." on its white paper \cite{2}.  This cryptocurrency allows developers to make decentralized applications with its dev tools.  Developers, then, are allowed to share their applications as smart contracts on the blockchain technology \cite{3}.\\[\baselineskip]
-NEO has two tokens, NEO and GAS.  There are 100 million NEO tokens on the network, and it is mainly used for voting and management rights.  The minimum unit of NEO is 1, and it cannot be subdivided.  GAS, on the other hand, will be used for resource allocation and network charges.  There will be 100 million GAS tokens on the network and there will be permission to subdivide GAS.  The minimum unit of GAS is 0.00000001.  In the original block 100 million NEOs were generated, but GAS was not generated.  It will be generated through a decay algorithm in about 22 years \cite{2}.\\[\baselineskip]
-The white paper states that 100 million Neo tokens have been divided into two parts.  50 million tokens were sold to early investors and 50 million tokens were managed by the Neo Council to support the development of the Neo ecosystem.  Neos in the second part were locked out for 1 year and were to be unlocked after October 16, 2017.  The second part will not be used in the exchange market.  It will be used to motivate Neo developers and to support the development of the Neo ecosystem \cite{2}.\\[\baselineskip]
-GAS, on the other hand, is generated with each new block.  The initial generation rate is 8 GAS per block.  The generation rate will be reduced by 1 GAS every year and will be reduced to 1 GAS per block after 22 years.  It will remain constant at 1 GAS per block.  The total amount of GAS generated will be 100 million.  It is stated in the white paper that 2 million blocks were to be generated in about one year.  16\% of the GAS would be created in the first year, 52\% of the GAS would be created in the first 4 years, and 80\% of GAS would be created in the first 12 years \cite{2}.\\[\baselineskip]
-Websites, icodrops.com and investing.com, have been used to verify the information in the white paper.  The white paper stated that 50\% of the NEO tokens were to be sold to early investors.  However, it is seen on icodrops.com that 40\% of tokens were available for sale, and its ICO (initial coin offering) token price was 0.2 USD per 1 Neo \cite{4}.  The white paper also stated that the second 50 million token portion would not enter the exchange market.  However, it is seen on investing.com that the circulating supply is 70.54 million \cite{5}.  Despite these differences, the current price of NEO is \$13.75 and its market cap is \$966 million \cite{5}.  The price of NEO has increased by 6,775\% since its ICO \cite{4}.  The white paper does not mention ICO of GAS, but GAS can be exchanged on investing.com, which seems peculiar \cite{6}.
+Monte Carlo simulation is a computational technique that uses random sampling to obtain numerical results for complex problems. It’s widely used to model and analyze system behavior affected by uncertainty \cite{1}.  The technique was initially developed by Stanislaw Ulam in the scope of Manhattan Project, which aimed to develop first atomic bomb.  Stanislaw shared this technique with a colleague who worked in the same project, John Von Neumann.  Both collaborated to improve the Monte Carlo simulation \cite{1}.\\
 
-\section{Long Short-Term Memory (LSTM) Network}
-TRON is defined as "an ambitious project dedicated to the establishment of a truly decentralized Internet and its infrastructure." on its white paper.  TRON network is used for dApps like Neo's network.  It was founded in July 2017 in Singapore.  Acquisition of BitTorrent in July 2018 shows that a decentralized ecosystem is important for TRON \cite{7}.\\[\baselineskip]
-TRON utilizes Proof of Stake (PoS) consensus mechanism rather than Proof of Work (PoW).  In this system, token holders assign some tokens to become block validators.  This may be problematic because the more assigned tokens a validator has, the more influence he/she has on the network.  This may lead to centralization of the network.  However, TRON has a solution for this problem.  TRON uses Delegated Proof of Stake (DPoS) consensus mechanism.  In this system, token holders can vote for block validators.  27 Super Representatives are selected by the votes of token holders.  These Super Representatives are responsible for block validation and are changed every 6 hours.  This system prevents centralization of the network \cite{7}.\\[\baselineskip]
-Apart from other cryptocurrencies, TRON attracts attention with its free transactions.  There are no transaction fees on the TRON network.  This is attractive for artists and content creators as they can transfer their digital work with no transaction fee after creation.  Also, TRON network is fast in terms of transactions as it can support about 2000 transactions per second, which is much quicker than networks that use PoW consensus mechanism \cite{8}.\\[\baselineskip]
-TRX, token that is used on the TRON network, was initiated on September 1, 2017.  \$70 million were generated at its ICO \cite{9}.  It is currently traded at \$0.106 on investing.com, which is about 57 times of its ICO price, and its market cap is \$9.38 billion.  The circulating supply is 88.59 billion \cite{10}.  What is peculiar about TRON is that it does not have a maximum supply limit.  This may lead to inflation in the future.  The white paper states that there would be no inflation before January 1, 2021.  However, it is not clear what will happen after that date \cite{7}.\\
+Monte Carlo simulation takes input variables with uncertainty and generates thousands of possible outcomes.  It then calculates the probability of each outcome and provides a range of possible outcomes.  This range of possible outcomes helps decision-makers to make informed decisions.  Monte Carlo simulation is widely used in various fields such as finance, engineering, and project management.  In finance, it is used to price options, to value investments, and to analyze risk.  In engineering, it is used to analyze complex systems and to optimize designs.  In project management, it is used to estimate project completion time and to analyze project risks \cite{1}.\\
+
+Monte Carlo simulation has four main steps:\\
+
+\textbf{Step 1:} Historical price data is used to generate daily returns.  Natural logarithm of the price data is taken by using the following formula:\\
+
+\begin{equation} \label{eq1}
+Daily return = \ln \left(\frac{Day's Price}{Previous Day's Price}\right)\end{equation}\\
+
+\textbf{Step 2:} Drift is calculated by calculating average and variance of daily returns that have been calculated in the first step:\\
+
+\begin{equation} \label{eq2}
+Drift = Average daily return - \frac{Variance}{2}
+\end{equation}\\
+
+\textbf{Step 3:} A random number is calculated by using standard deviation of the historical price data.  scipy library's norm.ppf function is used to calculate the random number.  This can also be a matrix depending on the number of simulations:\\
+
+\begin{equation} \label{eq3}
+Random number = \sigma \text{ x } \text{norm.ppf}(rand)
+\end{equation}\\
+
+\textbf{Step 4:} Next day's price is calculated by using the following equation:\\
+
+\begin{equation} \label{eq4}
+Next day's price = Today's price x \exp\left(\text{Drift} + \text{Random number}\right)
+\end{equation}\\
+
+Next day's prices will be fit a normal distribution.  In this analysis, test data has been predicted by Monte Carlo simulation.  The simulation that predicted the test data in the best way has been used to calculate the price of the next day that is not in the test data.\\
+
+
+
+\section{Long Short-Term Memory Network}
+Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture designed to overcome the vanishing gradient problem in traditional RNNs. LSTM networks are capable of learning long-term dependencies in sequential data, making them well-suited for time series forecasting, speech recognition, and natural language processing \cite{7}.\\
+
+LSTM networks consist of memory blocks with self-connected memory cells, which can store information over time. These memory blocks contain gates that regulate the flow of information, including input, output, and forget gates as seen on Figure \ref{fig:LSTM_cell}. The input gate controls the flow of new information into the memory cell, the forget gate controls the removal of information from the cell, and the output gate controls the flow of information to the network's output. LSTM networks can learn to retain or discard information over time, making them effective for modeling sequences with long-term dependencies\cite{7}.\\
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{LSTM_cell.png}
+\caption{A Long Short-Term Memory (LSTM) unit \cite{6}}
+\label{fig:LSTM_cell}
+\end{figure}
+
+A common problem in neural networks is the vanishing gradient problem.  Layers of cells are stacked to create a deep neural network.  Gradients get smaller with each layer and sometimes become too small for the deepest layer.  Memory cells in the LSTM allow gradients to flow continuously since errors maintain their values.  This helps to eliminate the vanishing gradient problem and enables the network to learn from sequences that are hundreds of time long \cite{6}.
 
 \section{Analysis Details}
-There are similarities between NEO and TRON.  Both focus on dApps and smart contracts, and have their own tokens.  Their tokens can be used for transactions, but the emphasis on their white papers is on dApps and smart contracts.  NEO created its own system, but TRON uses already-tested features.  This has allowed TRON to give emphasis on user experience and design.  Comparing their ICO prices to current prices, both of them have been successful in attracting investors. \cite{3, 8}
+In this project, pricing of gold futures has been analyzed.  The data has been taken from Yahoo Finance by using the library yfinance.  The data includes the date, the price of gold futures, the opening price, the highest price, the lowest price, the volume, and the change.  The data has been split into two parts: training data and test data.  The training data includes the data from Sep 2000 to May 2024, and the test data includes the data of last 5 days.  The training data has been used to train the models, and the test data has been used to test the models.    The model that predicted the test data in the best way has been used to calculate the close price of the next day that is not in the test data.\\
+
+The tables below show the data that has been used in this analysis:\\
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{gold_future_summary.png}
+\caption{Summary of Gold Futures Data used in the models.  Acquired from Yahoo Finance}
+\label{fig:gold_future_summary}
+\end{figure}
+
+The plot of close price of gold futures is shown below:\\
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.35]{gold_f_close.png}
+\caption{Gold Futures Close Prices}
+\label{fig:gold_f_close}
+\end{figure}
 
 \section{Results}
+Monte Carlo simulation was run with 100 simulations.  Every simulation predicted the test data.  The simulation that predicted the test data in the best way has been used to calculate the close price of the next day that is not in the test data.\\
+
+The figure below shows all the simulation runs:\\
+
+\begin{figure}[h]
+\includegraphics[scale=0.15]{MC_all_simulations.png}
+\caption{Monte Carlo all simulations}
+\label{fig:mc_all_runs}
+\end{figure}
+
+The figure below shows the simulation run that is the closest to the test data:\\
+
+\begin{figure}[h]
+\includegraphics[scale=0.15]{MC_best_simulation.png}
+\caption{Monte Carlo best simulation}
+\label{fig:mc_best_run}
+\end{figure}
+
+LSTM model was run by using Tensorflow and Keras libraries.  3 hidden layers were stacked and each had 50 units.  The model was trained with 40 epochs.  The model predicted the test data.  The figure below shows the prediction of the LSTM model:\\
+
+\begin{figure}[h]
+\includegraphics[scale=0.15]{LSTM_simulation.png}
+\caption{LSTM best simulation}
+\label{fig:lstm_best_run}
+\end{figure}
 
 \section{Discussion}
+As seen on the plots, Monte Carlo model gave much better results than LSTM model.  The Monte Carlo model predicted the test data in a better way.  It was able to capture the trend of the test data and fit the test data in a better way.  The LSTM model was not able to capture the trend of the test data.  Also, the test predictions of the LSTM model were not close to the test data.  The LSTM model was not able to fit well.\\
+
 
 \section{Conclusion}
-Cryptocurrencies, NEO and TRON, have been evaluated in this project.  Both of them focus on dApps and smart contracts.  NEO has its own system, but TRON uses already-tested features.  Both of them have been successful in attracting investors.  Even though they have gained the trust of investors, there are still some questions.  NEO's white paper should be revised and tell more about ICO of GAS.  TRON's white paper should be revised and tell more about inflation after January 1, 2021.  Considering the future of smart contracts, it can be said that both of these cryptocurrencies have a bright future.
+In this project, price of gold futures has been predicted by using Monte Carlo simulation and LSTM.  The results of these models have been compared.  The Monte Carlo model gave much better results than the LSTM model.  It was able to capture the trend of the test data and fit the test data in a better way.  The LSTM model was not able to capture the trend of the test data.  Also, the test predictions of the LSTM model were not close to the test data.  The LSTM model was not able to fit well.  The results of this project show that Monte Carlo simulation can be used to predict the price of gold futures in a better way than LSTM.\\
 
 
 \newpage
@@ -71,3 +154,4 @@ Cryptocurrencies, NEO and TRON, have been evaluated in this project.  Both of th
 \printbibliography[heading=bibintoc]
 
 \end{document}          
+538 415 50 06

@@ -56,7 +56,7 @@ def visualize_dataset(data):
         data_gold_ft (_type_): _description_
     """
     data_visual_1 = DataVisual()
-    data_visual_1.plt_time_series(data, 'GC=F', 'High')
+    data_visual_1.plt_time_series(data, 'GC=F', 'Close')
     data_visual_1.plt_time_series(data, 'GC=F', 'daily_return')
     return None
 
@@ -90,10 +90,10 @@ def main():
     data_main = open_dataset()
 
     # initial analysis of dataset
-    # analyze_dataset(data_main)
+    analyze_dataset(data_main)
 
     # initial visualization of dataset
-    # visualize_dataset(data_main)
+    visualize_dataset(data_main)
 
     # monte carlo simulation
     # monte_carlo_1 = MonteCarlo(data_main, 'GC=F', 1260, 5, 'Close', 100)
@@ -102,14 +102,14 @@ def main():
 
     # modeling lstm with attention
     # -------------------------------------- TRAINING ------------------------------------------------
-    training_len = 2520
-    val_len = (training_len // 7) * 2
-    test_len = val_len // 2
+    # training_len = 2520
+    # val_len = (training_len // 7) * 2
+    # test_len = val_len // 2
 
 
-    lstm_attention_1 = LSTMAttention(data_main, 'GC=F', training_len, val_len, test_len, 'Close')
-    folder_name = create_folder('lstm')
-    lstm_attention_1.simulate(folder_name)
+    # lstm_attention_1 = LSTMAttention(data_main, 'GC=F', training_len, val_len, test_len, 'Close')
+    # folder_name = create_folder('lstm')
+    # lstm_attention_1.simulate(folder_name)
 
     # -------------------------------------- PREDICTION ------------------------------------------------
     # lstm_attention_1 = LSTMAttention(data_main, 'GC=F', training_len, val_len, test_len, 'Close')
